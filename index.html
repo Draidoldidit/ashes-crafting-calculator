@@ -7,27 +7,26 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <header>
     <h1>Ashes of Creation Crafting Calculator</h1>
-    <select id="professionSelect"></select>
+    <select id="professionSelect" onchange="showItemsForProfession()">
+      <option value="">Select a profession...</option>
+    </select>
   </header>
 
   <main>
     <div id="itemContainer"></div>
-    <div id="result"></div>
-  </main>
 
-  <footer>
-    <p>Crafting Calculator (Early Access Build)</p>
-  </footer>
+    <section id="raritySection">
+      <h2>Rarity Outcome Calculator</h2>
+      <div id="rarityInputs"></div>
+      <button onclick="calculateRarity()">Calculate Outcome</button>
+      <p id="rarityResult"></p>
+    </section>
+  </main>
 
   <script src="data.js"></script>
   <script src="logic.js"></script>
 </body>
 </html>
-<div class="rarity-calculator">
-  <h3>Rarity Outcome Calculator</h3>
-  <div id="rarityInputs"></div>
-  <button onclick="calculateRarity()">Calculate Outcome</button>
-  <p id="rarityResult"></p>
-</div>
