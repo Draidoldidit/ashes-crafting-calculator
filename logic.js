@@ -1,8 +1,11 @@
+// ==============================
 // GLOBAL STATE
-let ITEM_DATA = [];
+// ==============================
 let CURRENT_MATERIALS = [];
 
+// ==============================
 // RARITY WEIGHTS (Exponential)
+// ==============================
 const RARITY_WEIGHTS = {
   Common: 1,
   Uncommon: 2,
@@ -11,27 +14,21 @@ const RARITY_WEIGHTS = {
   Legendary: 16
 };
 
-// LOAD CSV DATA
-fetch("data-template.csv")
-  .then(res => res.text())
-  .then(text => {
-    const lines = text.trim().split("\n");
-    const headers = lines.shift().split(",");
+// ==============================
+// DATA (embedded, no CSV fetch)
+// ==============================
+const ITEM_DATA = [
+  { Profession: "Weaponsmithing", Item: "Iron Sword", Rarity: "Common", Material: "Iron Ore", Quantity: 3 },
+  { Profession: "Weaponsmithing", Item: "Iron Sword", Rarity: "Common", Material: "Wood", Quantity: 1 },
+  { Profession: "Weaponsmithing", Item: "Steel Warhammer", Rarity: "Rare", Material: "Steel Ingot", Quantity: 5 },
+  { Profession: "Weaponsmithing", Item: "Steel Warhammer", Rarity: "Rare", Material: "Oak Wood", Quantity: 2 },
+  { Profession: "Alchemy", Item: "Minor Health Potion", Rarity: "Common", Material: "Herb", Quantity: 2 },
+  { Profession: "Alchemy", Item: "Minor Health Potion", Rarity: "Common", Material: "Water Flask", Quantity: 1 }
+];
 
-    ITEM_DATA = lines.map(row => {
-      const values = row.split(",");
-      const obj = {};
-      headers.forEach((h, i) => {
-        obj[h.trim()] = values[i].trim();
-      });
-      obj.Quantity = Number(obj.Quantity);
-      return obj;
-    });
-
-    populateProfessionDropdown();
-  });
-
+// ==============================
 // POPULATE PROFESSION DROPDOWN
+// ==============================
 function populateProfessionDropdown() {
   const select = document.getElementById("professionSelect");
   const professions = [...new Set(ITEM_DATA.map(i => i.Profession))];
@@ -44,7 +41,9 @@ function populateProfessionDropdown() {
   });
 }
 
-// SHOW ITEMS AND ATTACH CALCULATOR TRIGGERS
+// ==============================
+// SHOW ITEMS FOR PROFESSION
+// ==============================
 function showItemsForProfession() {
   const prof = document.getElementById("professionSelect").value;
   const container = document.getElementById("itemContainer");
@@ -79,7 +78,9 @@ function showItemsForProfession() {
   });
 }
 
+// ==============================
 // SELECT RECIPE FOR CALCULATOR
+// ==============================
 function selectRecipe(itemName, profession) {
   CURRENT_MATERIALS = ITEM_DATA.filter(
     i => i.Profession === profession && i.Item === itemName
@@ -89,7 +90,9 @@ function selectRecipe(itemName, profession) {
   document.getElementById("rarityResult").innerText = "";
 }
 
-// RENDER RARITY INPUTS FOR SELECTED MATERIALS
+// ==============================
+// RENDER RARITY INPUTS
+// ==============================
 function renderRarityInputs() {
   const container = document.getElementById("rarityInputs");
   container.innerHTML = "";
@@ -99,46 +102,3 @@ function renderRarityInputs() {
     row.className = "rarity-row";
 
     row.innerHTML = `
-      <label>
-        ${mat.Material} (x${mat.Quantity}):
-        <select id="rarity-${index}">
-          <option>Common</option>
-          <option>Uncommon</option>
-          <option>Rare</option>
-          <option>Epic</option>
-          <option>Legendary</option>
-        </select>
-      </label>
-    `;
-
-    container.appendChild(row);
-  });
-}
-
-// CALCULATE THE RARITY OUTCOME
-function calculateRarity() {
-  if (CURRENT_MATERIALS.length === 0) {
-    alert("Select a recipe first!");
-    return;
-  }
-
-  let totalScore = 0;
-  let maxScore = 0;
-
-  CURRENT_MATERIALS.forEach((mat, index) => {
-    const rarity = document.getElementById(`rarity-${index}`).value;
-    totalScore += mat.Quantity * RARITY_WEIGHTS[rarity];
-    maxScore += mat.Quantity * RARITY_WEIGHTS.Legendary;
-  });
-
-  const percent = (totalScore / maxScore) * 100;
-  let outcome = "Common";
-
-  if (percent >= 85) outcome = "Legendary";
-  else if (percent >= 65) outcome = "Epic";
-  else if (percent >= 45) outcome = "Rare";
-  else if (percent >= 25) outcome = "Uncommon";
-
-  document.getElementById("rarityResult").innerHTML =
-    `Predicted Outcome: <strong>${outcome}</strong> (${percent.toFixed(1)}%)`;
-}
