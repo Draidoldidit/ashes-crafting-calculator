@@ -1,3 +1,5 @@
-Profession,Item,Rarity,Materials
-Weaponsmithing,Iron Sword,Common,Iron Ore x3 + Wood x1
-Alchemy,Minor Health Potion,Common,Herb x2
+Profession,Item,Rarity,Material,Quantity
+Weaponsmithing,Iron Sword,Common,Iron Ore,3
+Weaponsmithing,Iron Sword,Common,Wood,1
+Alchemy,Minor Health Potion,Common,Herb,2
+Alchemy,Minor Health Potion,Common,Water Flask,1
