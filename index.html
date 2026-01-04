@@ -3,30 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AoC Crafting Calculator</title>
+  <title>AoC Numbers-Only Rarity Calculator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header>
-    <h1>Ashes of Creation Crafting Calculator</h1>
-    <select id="professionSelect" onchange="showItemsForProfession()">
-      <option value="">Select a profession...</option>
-    </select>
+    <h1>AoC Numbers-Only Rarity Calculator</h1>
   </header>
 
   <main>
-    <div id="itemContainer"></div>
+    <button id="addMaterialBtn">+ ADD MATERIAL GROUP</button>
 
-    <section id="raritySection">
-      <h2>Rarity Outcome Calculator</h2>
-      <div id="rarityInputs"></div>
-      <button onclick="calculateRarity()">Calculate Outcome</button>
-      <p id="rarityResult"></p>
-    </section>
+    <div id="materialContainer"></div>
+
+    <button onclick="calculateRarity()">CALCULATE OUTCOME</button>
+    <p id="rarityResult"></p>
   </main>
 
-  <script src="data.js"></script>
   <script src="logic.js"></script>
 </body>
 </html>
